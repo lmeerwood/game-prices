@@ -44,7 +44,7 @@ def priceClean(price):
 
 def run():
     if len(sys.argv) > 1:
-        query = " ".join(sys.argv[2:])    
+        query = " ".join(sys.argv[1:])    
         websites = loadWebsites()
         results = scanWebsites(websites, query)
         for result in results:
