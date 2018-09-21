@@ -48,7 +48,7 @@ def run():
         websites = loadWebsites()
         results = scanWebsites(websites, query)
         for result in results:
-            print('${} | {}'.format(result[1], result[0]))
+            print('${0:6}| {1}'.format(result[1], result[0]))
     else: 
         print("Please put the name of the game you wish to find the price of")
 
