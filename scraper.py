@@ -38,7 +38,7 @@ class Scraper():
         uri, seperator = self._webResources[resource]
         return uri.format(seperator.join(game.split(' ')))
         
-    def searchAll(self, game):
+    def searchAll(self, game, platform):
         results = []
         results.extend(self.ebgames(game))
         return results
