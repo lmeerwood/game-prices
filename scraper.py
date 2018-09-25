@@ -1,9 +1,9 @@
 import requests, bs4
 
 class Scraper():
-"""
-This class scrapes data from websites and passes it back to whoever calle it.
-"""
+    """
+    This class scrapes data from websites and passes it back to whoever calle it.
+    """
     _webResources = {
         "ebgames": ("https://ebgames.com.au/any/any?q={}", "%20")
     }
