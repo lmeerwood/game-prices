@@ -2,6 +2,9 @@
 prices-env/*
 settings.json
 
+# This file is ignored so API keys are not accidentally committed to repositories
+settings.py
+
 # .gitignore found at GitHubs gitignore repo
 # https://github.com/github/gitignore > Python.gitignore
 # Byte-compiled / optimized / DLL files
