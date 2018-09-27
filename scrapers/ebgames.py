@@ -1,5 +1,6 @@
 from . import utils
 from decimal import Decimal
+from fuzzywuzzy import fuzz
 import requests, bs4
 
 __URL = ("https://ebgames.com.au/any/any?q={}", "%20")
@@ -13,7 +14,7 @@ __ALLOWED_BRANDS = [
     'playstation 3',
     'playstation vita',
     'xbox one',
-    'xbox 360',
+    #'xbox 360',
 ]
 
 __DISALLOWED_CATEGORIES = [
@@ -47,20 +48,24 @@ def query(game, platform='any'):
     res.raise_for_status()
     soup = bs4.BeautifulSoup(res.text, features="html.parser")
     items = soup.select('.product')
+    fuzzyOffset = -10
+    while (len(results) == 0 and fuzzyOffset < 90):
+        fuzzyOffset += 10
+        for item in items:
+            link = item.select('a')[0]
+            name = link.attrs['data-name']
+            brand = link.attrs['data-brand'].lower()
+            price = Decimal(utils.priceClean(link.attrs['data-price']))
+            
+            partialratio = fuzz.partial_ratio(name, game)
+            
+            correctBrand =  brand in __ALLOWED_BRANDS
+            correctCategory = not link.attrs['data-category'].lower() in __DISALLOWED_CATEGORIES
+            correctGame = partialratio > (utils.GAME_FUZINESS - fuzzyOffset)
 
-    for item in items:
-        link = item.select('a')[0]
-        name = link.attrs['data-name']
-        brand = link.attrs['data-brand'].lower()
-        price = Decimal(utils.priceClean(link.attrs['data-price']))
+            if  correctGame and correctCategory and correctBrand:
+                results.append((name, __SYSTEM_CODES[brand], price))
 
-        correctGame = game.strip(' ').lower() in name.strip(' ').lower()
-        correctBrand =  brand in __ALLOWED_BRANDS
-        correctCategory = not link.attrs['data-category'].lower() in __DISALLOWED_CATEGORIES
-
-        if correctGame and correctCategory and correctBrand:
-            results.append((name, __SYSTEM_CODES[brand], price))
-    
     return sorted(results, key=getKeyPrice, reverse=True)
 
 def getKeyPrice(item):

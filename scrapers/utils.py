@@ -1,3 +1,6 @@
+
+GAME_FUZINESS = 80
+
 def priceClean(price):
     """
     Ensures the prices are only 2 decimal places long.
