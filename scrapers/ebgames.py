@@ -3,6 +3,17 @@ import requests, bs4
 
 __URL = ("https://ebgames.com.au/any/any?q={}", "%20")
 
+__ALLOWED_BRANDS = [
+    'nintendo wii u',
+    'nintendo 3ds',
+    'nintendo ds',
+    'nintendo switch',
+]
+
+__DISALLOWED_CATEGORIES = [
+    'accessories'
+]
+
 def query(game, platform='any'):
     """
     Returns the price of the game from EB Games
@@ -22,7 +33,10 @@ def query(game, platform='any'):
     for item in items:
         link = item.select('a')[0]
         name = link.attrs['data-name']
-        if game.strip(' ').lower() in name.strip(' ').lower():
+        correctGame = game.strip(' ').lower() in name.strip(' ').lower()
+        correctBrand = link.attrs['data-brand'].lower() in __ALLOWED_BRANDS
+        correctCategory = not link.attrs['data-category'].lower() in __DISALLOWED_CATEGORIES
+        if correctGame and correctCategory and correctBrand:
             price = utils.priceClean(link.attrs['data-price'])
             results.append((name, price))
     
