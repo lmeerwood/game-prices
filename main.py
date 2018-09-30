@@ -18,7 +18,7 @@ def run():
     scraper = Scraper()
     results = scraper.searchAll(game=args.title, platform=platform)
     for result in results:
-        print('${0:6}| {1:7}|{2}'.format(result[2], result[1], result[0]))
+        print('${0:6}| {1:7}| {2:8}| {3}'.format(result[2], result[1], result[3], result[0]))
 
 if __name__ == "__main__":
     run()
