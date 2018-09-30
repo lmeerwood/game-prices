@@ -22,7 +22,7 @@ __DISALLOWED_CATEGORIES = [
 ]
 
 __SYSTEM_CODES = {
-    'nintendo wii u': 'wiiu',
+    'nintendo wii u': 'wii-u',
     'nintendo 3ds': '3ds',
     'nintendo ds': 'nds',
     'nintendo switch': 'switch',
