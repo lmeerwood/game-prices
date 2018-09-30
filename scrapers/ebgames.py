@@ -64,9 +64,6 @@ def query(game, platform='any'):
             correctGame = partialratio > (utils.GAME_FUZINESS - fuzzyOffset)
 
             if  correctGame and correctCategory and correctBrand:
-                results.append((name, __SYSTEM_CODES[brand], price))
+                results.append((name, __SYSTEM_CODES[brand], price, "ebgames"))
 
-    return sorted(results, key=getKeyPrice, reverse=True)
-
-def getKeyPrice(item):
-    return item[2], item[0]
+    return results

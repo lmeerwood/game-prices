@@ -1,13 +1,10 @@
 import requests, bs4
-from scrapers import ebgames
+from scrapers import ebgames, jbhifi
 
 class Scraper():
     """
     This class scrapes data from websites and passes it back to whoever calle it.
     """
-    _webResources = {
-        "ebgames": ("https://ebgames.com.au/any/any?q={}", "%20")
-    }
 
     def __init__(self):
         super().__init__()
@@ -19,4 +16,8 @@ class Scraper():
         """
         results = []
         results.extend(ebgames.query(game))
-        return results
+        results.extend(jbhifi.query(game))
+        return sorted(results, key=getKeyPrice, reverse=True)
+
+def getKeyPrice(item):
+    return item[1], item[0], item[2]
